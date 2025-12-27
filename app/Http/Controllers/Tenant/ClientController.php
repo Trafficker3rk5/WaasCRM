@@ -67,7 +67,7 @@ class ClientController extends Controller
             $cl->budgetsLigths = $cl->budgetsLigths();
             $cl->tasksLights = $cl->tasksLights();
             $cl->expired = $cl->isExpired();
-            $cl->last_change = LerpH::showElapsedDays($cl->created_at);
+            $cl->last_change = Lerph::showElapsedDays($cl->created_at);
             return $cl;
         });
         

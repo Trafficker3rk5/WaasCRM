@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 use Stancl\Tenancy\Exceptions\DomainOccupiedByOtherTenantException;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class Company extends Model
 {

@@ -5,7 +5,7 @@ namespace App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class Client extends Model
 {
@@ -25,7 +25,6 @@ class Client extends Model
         'origin_id',
         'status_id',
         'responsible',
-        'is_client',
         'activity_id',
         'business_name',
         'assigned_to',

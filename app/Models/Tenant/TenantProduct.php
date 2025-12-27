@@ -6,7 +6,7 @@ use App\Helpers\Lerph;
 use App\Models\Central\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class TenantProduct extends Model
 {

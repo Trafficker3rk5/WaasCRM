@@ -53,7 +53,7 @@ class ClientController extends ApiController
             $cl->main_address = ($addr ? $addr->province . ', ' . $addr->city : '');
             $cl->address_complete = $addr;
             $cl->expired = $cl->isExpired();
-            $cl->last_change = LerpH::showElapsedDays($cl->created_at);
+            $cl->last_change = Lerph::showElapsedDays($cl->created_at);
             return $cl;
         });
 
