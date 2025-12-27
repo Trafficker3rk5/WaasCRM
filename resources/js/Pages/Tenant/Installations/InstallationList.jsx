@@ -33,9 +33,6 @@ export default function InstallationList({ auth, title, pending, tecnics, client
     const toggleModalHistory = () => setModalHistory(!modalHistory);
     const [historyList, setHistoryList] = useState([]);
 
-    console.log('🔍 InstallationList - Pending value:', pending);
-    console.log('🔍 InstallationList - Title:', title);
-    console.log('🔍 InstallationList - Is Installation:', isInstallation);
 
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         id: 0
@@ -68,7 +65,6 @@ export default function InstallationList({ auth, title, pending, tecnics, client
                 ...d
             };
             
-            console.log('🔄 Fetching installations with params:', params);
             
             const response = await axios.post(
                 isInstallation ? route('installations.list') : route('maintenances.list'), 
@@ -79,7 +75,6 @@ export default function InstallationList({ auth, title, pending, tecnics, client
             const safeData = Array.isArray(response.data) ? response.data : [];
             setDataList(safeData);
             
-            console.log('✅ Received installations:', safeData.length);
         } catch (error) {
             console.error('❌ Error fetching installations:', error);
             setDataList([]); // Set empty array on error
@@ -122,19 +117,16 @@ export default function InstallationList({ auth, title, pending, tecnics, client
                 toggleModalAction();
             },
             onError: (y) => {
-                console.log(y);
             }
         });
     }
 
     useEffect(() => {
-        console.log('🎯 useEffect triggered - Pending:', pending, 'Filtered:', filtered);
         getInstallations(filtered);
         if (modalHistory) getHistory(data.id);
     }, [deleteCounter, pending]);
 
     useEffect(() => {
-        console.log('🔄 Pending value changed to:', pending);
         getInstallations(filtered);
     }, [pending]);
 

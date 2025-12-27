@@ -138,7 +138,6 @@ const FileManager = (props) => {
         router.post(props.uploadUrl, {files : files},
             {
                 onSuccess: (y) => {
-                    console.log(y);
                     let files = y.props.flash.files;
                     if (files && files.length > 0){
                         let myfiles = [...myfile];
@@ -159,7 +158,6 @@ const FileManager = (props) => {
                     }
                 },
                 onError: (errors) => {
-                    console.log(errors);
                 }
             }
         )

@@ -45,7 +45,8 @@ class ClientController extends ApiController
         $page = request()->input('page', 1);
         $limit = request()->input('rows', 10);
 
-        $data = Client::where('is_client', $isClient)->skip(($page - 1) * $limit)->take($limit)->get()->map(function($cl){
+        $data = Client::with(['addresses', 'origin', 'activity', 'status'])
+            ->where('is_client', $isClient)->skip(($page - 1) * $limit)->take($limit)->get()->map(function($cl){
             $addr = $cl->mainAddress();
             $cl->origin;
             $cl->activity;
@@ -82,7 +83,15 @@ class ClientController extends ApiController
     */
     public function show($uid)
     {
-        $client = Client::find($uid);
+        $client = Client::with([
+            'comments.user',
+            'budgets.details',
+            'tasks.user',
+            'origin',
+            'status',
+            'histories.user',
+            'histories.type'
+        ])->find($uid);
         if (!$client) {
             return $this->returnNotFound('Cliente no encontrado');
         }
@@ -111,7 +120,7 @@ class ClientController extends ApiController
         $client->status;
         $client->budgetsLigths = $client->budgetsLigths();
         $client->tasksLights = $client->tasksLights();
-    
+
         ///Timeline
         $timeline = [];
         $client->histories->map(function($h) use (&$timeline){

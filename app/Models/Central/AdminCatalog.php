@@ -24,6 +24,11 @@ class AdminCatalog extends Model
         'order',
     ];
 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'family_id');
+    }
+
     public function getExtraData()
     {
         $data = [];

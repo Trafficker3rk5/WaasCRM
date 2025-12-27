@@ -85,7 +85,6 @@ export default function MaterialList({ auth, title}) {
         {
             name: 'Acciones',
             selector: (row) => {
-                console.log(row)  ;
                 return (
                     <>
                         

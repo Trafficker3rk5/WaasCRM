@@ -112,7 +112,6 @@ const HorecaCalc = (props) => {
     ];
 
     const processData = () => {
-        console.log(data);
         if (openedTab == 0) {
             setOpenedTab(1);
         } else if (openedTab == 1) {
@@ -126,7 +125,6 @@ const HorecaCalc = (props) => {
         post(route('horeca.calculate'), {
             preserveScroll: true,
             onSuccess: (d) => {
-                console.log(d.props.flash.message);
                 setProducts(d.props.flash.message.products);
                 setOpenedTab(2);
             }
@@ -221,7 +219,6 @@ const HorecaCalc = (props) => {
 
             saving = (calcData.monthCost ?? 0) - (calcData.productCost ?? 0) + costMonth1 + costMonth2;
             amortization = Math.ceil((calcData.productCost ?? 0) / (calcData.monthCost ?? 0));
-            console.log(calcData, costMonth1, costMonth2, saving, amortization);
         }
         let allData = {...calcData, productCost, cost1, cost2, gasCost1, gasCost2, saving, amortization};
         delete allData['product'];
@@ -241,7 +238,6 @@ const HorecaCalc = (props) => {
                 togglemodalHoreca();
             },
             onError: (d) => {
-                console.log(d);
             }
         });
     }

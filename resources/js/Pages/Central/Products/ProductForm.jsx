@@ -11,7 +11,6 @@ import Switch from '@/Template/CommonElements/Switch';
 import { Form, Card, CardBody, CardFooter, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 export default function ProductForm({ auth, title, product, families, categories, allParts, attributes, images, videos, documents, attrs, parts, otherParts, dismantling, extras = [], selectedExtras = []}) {
-    console.log(extras);
     const [activeTab, setActiveTab] = useState('1');
     const [extrasModal, setExtrasModal] = useState(false);
     const modalRef = useRef(null);

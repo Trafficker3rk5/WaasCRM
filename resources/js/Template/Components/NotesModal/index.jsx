@@ -49,7 +49,6 @@ const NotesModal = (props) => {
                     toggleModalAction();
                 },
                 onError: (y) => {
-                    console.log(y);
                 }
             }
         );

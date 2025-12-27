@@ -84,7 +84,7 @@ class TaskController extends Controller
 
     public function list(Request $request)
     {
-        $tasks = Task::query();
+        $tasks = Task::with(['client', 'type']);
         if ($request->has('q') && $request->q !== null){
             $tasks->where(function ($query) use ($request){
                 $query->where('title', 'ilike', '%'. $request->q .'%')
@@ -96,14 +96,14 @@ class TaskController extends Controller
         if ($request->has('cid') && $request->cid !== null) $tasks->where('client_id', $request->cid);
         if ($request->has('from') && $request->from !== null) $tasks->where('date', '>=', $request->from);
         if ($request->has('to') && $request->to !== null) $tasks->where('date', '<=', $request->to);
-        
+
         $data = $tasks->get()->map(function($t){
             $t->date = Lerph::showDateTime($t->date).' - '.Lerph::showDateTime($t->date_end);
             $t->client_full_name = $t->client->full_name ?? '';
             $t->type;
             return $t;
         });
-        
+
         return $data;
     }
 

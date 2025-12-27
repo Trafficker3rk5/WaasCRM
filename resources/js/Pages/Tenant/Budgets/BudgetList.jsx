@@ -97,7 +97,6 @@ export default function BudgetList({ auth, title, cid, st}) {
                     toggleModal();
                 },
                 onError: (errors) => {
-                    console.log(errors);
                 }
             }
         );
@@ -112,7 +111,6 @@ export default function BudgetList({ auth, title, cid, st}) {
                     toggleModalAccept();
                 },
                 onError: (errors) => {
-                    console.log(errors);
                 }
             }
         );

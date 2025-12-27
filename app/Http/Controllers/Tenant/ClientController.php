@@ -43,7 +43,8 @@ class ClientController extends Controller
 
     public function list(Request $request)
     {
-        $clients = Client::where('is_client', $this->isClientPage());
+        $clients = Client::with(['addresses', 'comments', 'origin', 'activity', 'status', 'budgets', 'tasks'])
+            ->where('is_client', $this->isClientPage());
         if ($request->has('q') && $request->q !== null) $clients->where('company_name', 'like', '%'.$request->q.'%');
         if ($request->has('aid') && $request->aid !== null) $clients->where('activity_id', $request->aid);
         if ($request->has('oid') && $request->oid !== null) $clients->where('origin_id', $request->oid);
@@ -55,7 +56,7 @@ class ClientController extends Controller
         if ($request->has('cid') && $request->cid !== null) $clients->whereHas('addresses', function($q) use ($request){
             $q->where('city', $request->cid);
         });
-        
+
         $data = $clients->get()->map(function($cl){
             $addr = $cl->mainAddress();
             $cl->total_comments = $cl->comments->count();
@@ -70,15 +71,15 @@ class ClientController extends Controller
             $cl->last_change = Lerph::showElapsedDays($cl->created_at);
             return $cl;
         });
-        
+
         return $data;
     }
 
     public function create()
     {
         $isClient = $this->isClientPage();
-        $famlies = AdminCatalog::where('type', 5)->get()->map(function($fm){
-            $fm->products = Product::where('family_id', $fm->id)->get()->map(function($pr){
+        $famlies = AdminCatalog::with(['products'])->where('type', 5)->get()->map(function($fm){
+            $fm->products = $fm->products->map(function($pr){
                 $pr->getTenantProduct();
                 $pr->label = $pr->final_name;
                 $pr->value = $pr->id;
@@ -104,11 +105,11 @@ class ClientController extends Controller
 
     public function edit($uid)
     {
-        $client = Client::find($uid);
+        $client = Client::with('addresses')->find($uid);
         $isClient = $this->isClientPage();
 
-        $famlies = AdminCatalog::where('type', 5)->get()->map(function($fm){
-            $fm->products = Product::where('family_id', $fm->id)->get()->map(function($pr){
+        $famlies = AdminCatalog::with(['products'])->where('type', 5)->get()->map(function($fm){
+            $fm->products = $fm->products->map(function($pr){
                 $pr->label = $pr->final_name;
                 $pr->value = $pr->id;
                 return $pr;
@@ -133,7 +134,16 @@ class ClientController extends Controller
 
     public function show($uid)
     {
-        $client = Client::find($uid);
+        $client = Client::with([
+            'comments.user',
+            'budgets.details',
+            'tasks.user',
+            'origin',
+            'status',
+            'histories.user',
+            'histories.type',
+            'addresses'
+        ])->find($uid);
         $isClient = $this->isClientPage();
         $client->comments->map(function($c){
             $c->user;
@@ -158,7 +168,7 @@ class ClientController extends Controller
         $client->status;
         $client->budgetsLigths = $client->budgetsLigths();
         $client->tasksLights = $client->tasksLights();
-    
+
         ///Timeline
         $timeline = [];
         $client->histories->map(function($h) use (&$timeline){
@@ -311,7 +321,7 @@ class ClientController extends Controller
 
     public function getAddresses($cid)
     {
-        $client = Client::findOrFail($cid);
+        $client = Client::with('addresses')->findOrFail($cid);
         return $client->addresses;
     }
 

@@ -71,7 +71,6 @@ export default function Catalog({ auth, title, type, related }) {
         {
             name: type == 2 ? 'Productos' : 'Caracteristicas',
             selector: (row) => {
-                console.log(row);
                 return (
                     <>
                     {
@@ -164,7 +163,6 @@ export default function Catalog({ auth, title, type, related }) {
                     toggle();
                 },
                 onError: (errors) => {
-                    console.log(errors);
                 }
             }
         );

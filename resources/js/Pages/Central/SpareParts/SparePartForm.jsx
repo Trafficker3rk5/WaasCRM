@@ -9,7 +9,6 @@ import { Form, Card, CardBody, CardFooter, Row, Col} from 'reactstrap';
 import SimpleImage from "@/Template/CommonElements/SimpleImage";
 
 export default function SparePartForm({ auth, title, part, products, others, types}) {
-    console.log(part);
     const [selectedOption, setSelectedOption] = useState(() => types.filter(type => type.value == part.type_id)[0]);
 
     const { data, setData, post, processing, errors, reset, clearErrors} = useForm({

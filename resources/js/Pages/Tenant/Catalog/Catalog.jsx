@@ -122,7 +122,6 @@ export default function Catalog({ auth, title, type, related }) {
                     toggle();
                 },
                 onError: (errors) => {
-                    console.log(errors);
                 }
             }
         );

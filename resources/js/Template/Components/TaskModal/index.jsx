@@ -114,7 +114,6 @@ const TaskModal = (props) => {
                     toggle();
                 },
                 onError: (errors) => {
-                    console.log(errors);
                 }
             }
         );
@@ -130,7 +129,6 @@ const TaskModal = (props) => {
                     toggle();
                 },
                 onError: (errors) => {
-                    console.log(errors);
                 }
             }
         );
