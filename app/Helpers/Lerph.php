@@ -75,20 +75,23 @@ class Lerph {
 
     public static function validateCaptcha($userResponse){
         $fields_string = '';
-        $fields = ['secret' => '6LcH9mwnAAAAAMrYdMwkcFb1W6w24MWWpA-WLSpA','response' => $userResponse,'remoteip' => $_SERVER['REMOTE_ADDR']];
+        $fields = [
+            'secret' => config('services.recaptcha.secret_key'),
+            'response' => $userResponse,
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        ];
         foreach($fields as $key=>$value) $fields_string .= $key . '=' . $value . '&';
         $fields_string = rtrim($fields_string, '&');
-            
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify');
         curl_setopt($ch, CURLOPT_POST, count($fields));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-        
+
         $result = curl_exec($ch);
-        //dd($result);
         curl_close($ch);
-        
+
         return json_decode($result, true);
     }
 
